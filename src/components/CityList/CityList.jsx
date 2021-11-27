@@ -6,18 +6,20 @@ import CityInfo from "./../CityInfo"
 import Weather from "./../Weather"
 import useCityList from "./../../hooks/useCityList"
 import { getCityCode } from "../../utils/utils"
+import {
+  useWheatherDispatchContext,
+  useWheatherStateContext,
+} from "../../WeatherContext"
 
-const renderCityAndCountry = (eventOnClickCity) => (
-  cityAndCountry,
-  weather
-) => {
-  const { city, country, countryCode } = cityAndCountry
+const CityListItem = React.memo(function CityListItem({
+  city,
+  country,
+  countryCode,
+  eventOnClickCity,
+  weather,
+}) {
   return (
-    <ListItem
-      button
-      key={getCityCode(city, countryCode)}
-      onClick={() => eventOnClickCity(city, countryCode)}
-    >
+    <ListItem button onClick={() => eventOnClickCity(city, countryCode)}>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item md={8} xs={12}>
           <CityInfo city={city} country={country} />
@@ -31,13 +33,29 @@ const renderCityAndCountry = (eventOnClickCity) => (
       </Grid>
     </ListItem>
   )
+})
+
+const renderCityAndCountry = (eventOnClickCity) => (
+  cityAndCountry,
+  weather
+) => {
+  const { city, countryCode } = cityAndCountry
+  return (
+    <CityListItem
+      key={getCityCode(city, countryCode)}
+      eventOnClickCity={eventOnClickCity}
+      weather={weather}
+      {...cityAndCountry}
+    />
+  )
 }
 
 // cities is an array of objects with city and country
-const CityList = ({ data, actions, cities, onClickCity }) => {
+const CityList = ({ cities, onClickCity }) => {
+  const actions = useWheatherDispatchContext()
+  const data = useWheatherStateContext()
   const { allWeather } = data
-  const { onSetAllWeather } = actions
-  const { error, setError } = useCityList(cities, allWeather, onSetAllWeather)
+  const { error, setError } = useCityList(cities, allWeather, actions)
 
   return (
     <div>
@@ -71,4 +89,4 @@ CityList.propTypes = {
   onClickCity: PropTypes.func.isRequired,
 }
 
-export default CityList
+export default React.memo(CityList)

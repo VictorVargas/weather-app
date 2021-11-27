@@ -7,4 +7,6 @@ export default {
   component: CityInfo,
 }
 
-export const CityExample = () => <CityInfo city="Hermosillo" country="Mexico" />
+export const CityExample = (args) => <CityInfo {...args} />
+
+CityExample.args = { city: "Hermosillo", country: "Mexico" }

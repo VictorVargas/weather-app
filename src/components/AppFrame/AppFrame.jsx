@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import PropTypes from "prop-types"
 import { IconContext } from "react-icons"
 import {
@@ -13,6 +13,7 @@ import { WiDaySunny } from "react-icons/wi"
 import { Link as LinkRouter } from "react-router-dom"
 
 const AppFrame = ({ children }) => {
+  const iconContextSize = useMemo(() => ({ size: "2em" }), [])
   return (
     <Grid container justifyContent="center">
       <AppBar position="static">
@@ -24,7 +25,7 @@ const AppFrame = ({ children }) => {
               to="/main"
               aria-label="menu"
             >
-              <IconContext.Provider value={{ size: "2em" }}>
+              <IconContext.Provider value={iconContextSize}>
                 <WiDaySunny />
               </IconContext.Provider>
             </Link>

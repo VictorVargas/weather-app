@@ -3,6 +3,7 @@ import { render, fireEvent } from "@testing-library/react"
 import CityList from "./CityList"
 import axios from "axios"
 import { jest } from "@jest/globals"
+import { WeatherContext } from "../../WeatherContext"
 
 const cities = [
   { city: "New York", country: "USA", countryCode: "US" },
@@ -22,7 +23,9 @@ test("CityList renders", async () => {
   })
   const fnClickOnItem = jest.fn()
   const { findAllByRole } = render(
-    <CityList cities={cities} onClickCity={fnClickOnItem} />
+    <WeatherContext>
+      <CityList cities={cities} onClickCity={fnClickOnItem} />
+    </WeatherContext>
   )
   const cityListItems = await findAllByRole("button")
   expect(cityListItems).toHaveLength(cities.length)
@@ -35,7 +38,9 @@ test("CityList click on item", async () => {
   })
   const fnClickOnItem = jest.fn()
   const { findAllByRole } = render(
-    <CityList cities={cities} onClickCity={fnClickOnItem} />
+    <WeatherContext>
+      <CityList cities={cities} onClickCity={fnClickOnItem} />
+    </WeatherContext>
   )
   const items = await findAllByRole("button")
   // Simulate click event with fireEvent

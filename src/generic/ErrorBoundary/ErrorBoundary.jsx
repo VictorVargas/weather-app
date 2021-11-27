@@ -1,6 +1,6 @@
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends PureComponent {
   constructor(props) {
     super(props)
     this.state = { hasError: false }
@@ -15,7 +15,7 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    return this.state.hasError ? <h1>Has error</h1> : this.props.children
+    return this.state.hasError ? <h1>Hubo un problema</h1> : this.props.children
   }
 }
 
